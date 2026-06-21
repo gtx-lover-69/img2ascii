@@ -3,20 +3,20 @@ import numpy as np
 import time
 import os
 
-gscale = '@%#*+=-:. '
+gscale = ''
 
 def makeFile(imgFile, cols, scale, outFile):
     aimg = convertToASCII(imgFile, cols, scale)
 
-    f = open(outFile, "w")
-
     print("Converting to ASCII...")
 
-    for row in aimg:
-        f.write(row + "\n")
-    f.close()
+    with open(outFile, "w") as f:
+        for row in aimg:
+            f.write(row + "\n")
 
-    print("Done! File is ready at " + outFile + ".txt")
+    print("Done! File is ready at " + outFile)
+    time.sleep(1)
+    exit(0)
 
 def getAvg(image):
     img = np.array(image)
@@ -93,6 +93,8 @@ def main():
                 outFile = input("Enter output filename: ").strip('"').strip()
 
                 if outFile:
+                    if not outFile.endswith(".txt"):
+                        outFile += ".txt"
                     break
 
                 print("Enter a valid output filename.")
@@ -103,7 +105,7 @@ def main():
 
                 if cols:
                     if cols.isdigit():
-                        cols = int(cols)-1
+                        cols = int(cols)
                         break
                     else:
                         print("Please enter a valid number of columns.")
@@ -114,18 +116,16 @@ def main():
             while True:
                 scale = input("Enter scale factor (0 to 1): ").strip('"').strip()
 
-                if scale:
-                    if scale.isdigit():
-                        scale = float(scale)
-                        if scale > 0 and scale <= 1:
-                            break
-                        else:
-                            print("Please enter a valid scale factor.")
-                    else:
-                        print("Please enter a valid scale factor.")
-                        time.sleep(1)
+                try:
+                    scale = float(scale)
 
-                print("Please enter a valid scale factor.")
+                    if 0 < scale <= 1:
+                        break
+                    else:
+                        print("Please enter a value between 0 and 1.")
+
+                except ValueError:
+                    print("Please enter a valid number.")
 
             makeFile(imgFile, cols, scale, outFile)
 
