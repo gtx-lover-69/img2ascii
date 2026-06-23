@@ -4,16 +4,18 @@ import time
 import os
 from sys import exit
 
-gscale = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`". '
+gscale = '@%#*+=-:. '
 
 def makeFile(imgFile, cols, scale, outFile):
     aimg = convertToASCII(imgFile, cols, scale)
 
     print("Converting to ASCII...")
-
-    with open(outFile, "w") as f:
-        for row in aimg:
-            f.write(row + "\n")
+    try:
+        with open(outFile, "w") as f:
+            for row in aimg:
+                f.write(row + "\n")
+    except PermissionError as e:
+        print("Permission error. Please make sure you are running this program in a valid directory.")
 
     print("Done! File is ready at " + outFile)
     time.sleep(1)
@@ -50,7 +52,7 @@ def convertToASCII(filename, cols, scale,):
 
             avg = int(getAvg(img))
 
-            gsval = gscale[int(avg * (len(gscale) - 69) / 255)]
+            gsval = gscale[int(avg * (len(gscale) - 1) / 255)]
 
             aimg[row] += gsval
 
