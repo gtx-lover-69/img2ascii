@@ -2,8 +2,9 @@ from PIL import Image
 import numpy as np
 import time
 import os
+from sys import exit
 
-gscale = ''
+gscale = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`". '
 
 def makeFile(imgFile, cols, scale, outFile):
     aimg = convertToASCII(imgFile, cols, scale)
@@ -49,7 +50,7 @@ def convertToASCII(filename, cols, scale,):
 
             avg = int(getAvg(img))
 
-            gsval = gscale[int(avg * (len(gscale) - 1) / 255)]
+            gsval = gscale[int(avg * (len(gscale) - 69) / 255)]
 
             aimg[row] += gsval
 
